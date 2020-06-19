@@ -1,0 +1,80 @@
+﻿@page "/Modals"
+
+@inject IJSRuntime js
+@inject IToastService toast
+
+<div class="card">
+    <div class="card-header">
+        <h4>Eliga</h4>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <button type="button" class="btn btn-lg btn-primary" @onclick="Confirmacion">Confirmacion</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-danger" @onclick="Error">Error</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-success" @onclick="Guardar">Guardado Exitosamente</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-dark" @onclick="NoEncontrado">No encontrado</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-success" @onclick="GT">Success</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-warning" @onclick="WT">warning</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-info" @onclick="IT">Info</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-danger" @onclick="ET">Error</button>
+        </div>
+    </div>
+    <div class="card-footer">
+
+    </div>
+</div>
+
+@code {
+
+    public async Task Confirmacion()
+    {
+        bool bien = false;
+        if(await js.ConfirmDelete("Confirmar","Esta seguro que desea eliminar este elemento?","question"))
+        {
+            bien = true;
+        }
+    }
+    public async Task Guardar()
+    {
+        await js.Guardado("top-end", "success", "Guardado Exitosamente","Buen trabajo", false, 2000);
+    }
+    public async Task Error()
+    {
+        await js.Guardado("top-end", "error", "Error al guardar","Al parecer algo esta mal", false, 2000);
+    }
+    public async Task NoEncontrado()
+    {
+        await js.Guardado("top-end", "info", "No se pudo guardar","Lo que busca no esta aqui", false, 2000);
+    }
+    public void GT()
+    {
+        toast.ShowSuccess("Guardado");
+    }
+    public void IT()
+    {
+        toast.ShowInfo("No hay elementos");
+    }
+    public void WT()
+    {
+        toast.ShowWarning("No encontrado");
+    }
+    public void ET()
+    {
+        toast.ShowError("Error al guardar");
+    }
+
+}
